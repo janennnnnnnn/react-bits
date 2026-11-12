@@ -30,7 +30,13 @@ const NAV_LINKS = [
   { label: 'Sponsors', to: '/sponsors', match: '/sponsors' }
 ];
 
-const Navbar = ({ showDocs }) => {
+const Navbar = ({ showDocs, catalog = false }) => {
+  const navLinks = catalog
+    ? [
+        { label: 'Browse', to: '/get-started/index', match: DOCS_MATCHES },
+        { label: 'Favorites', to: '/favorites', match: '/favorites' }
+      ]
+    : NAV_LINKS;
   const stars = useStars();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -46,7 +52,7 @@ const Navbar = ({ showDocs }) => {
   const isLightTheme = resolvedTheme === 'light';
   const location = useLocation();
   const docsCategory = location.pathname.split('/').filter(Boolean)[0] || 'unknown';
-  const showDocsProCta = showDocs;
+  const showDocsProCta = showDocs && !catalog;
   const docsProRef = useProImpression('docs-navbar', { category: docsCategory }, showDocsProCta);
   const landingProRef = useProImpression('navbar', { surface: 'marketing' }, !showDocs);
   const mobileFilterQuery = mobileFilter.trim().toLowerCase();
@@ -79,8 +85,8 @@ const Navbar = ({ showDocs }) => {
   const showMobileFavorites = !mobileFilterQuery || 'favorites saved'.includes(mobileFilterQuery);
   const mobileHasResults =
     showMobileFavorites ||
-    mobileProSections.length > 0 ||
-    mobileTools.length > 0 ||
+    (!catalog && mobileProSections.length > 0) ||
+    (!catalog && mobileTools.length > 0) ||
     mobileCategories.some(category => category.subcategories.length > 0);
 
   const isActive = useCallback(
@@ -181,7 +187,7 @@ const Navbar = ({ showDocs }) => {
 
           <nav className="ln-navbar-links" ref={linksRef} onMouseLeave={handleLinksLeave}>
             <div className="ln-navbar-link-highlight" ref={highlightRef} />
-            {NAV_LINKS.map(({ label, to, match, tag }) => (
+            {navLinks.map(({ label, to, match, tag }) => (
               <Link
                 key={to}
                 className={`ln-navbar-link${isActive(match) ? ' ln-navbar-link-active' : ''}`}
@@ -310,7 +316,7 @@ const Navbar = ({ showDocs }) => {
 
         {menuOpen && !showDocs && (
           <div className="ln-navbar-mobile-menu">
-            {NAV_LINKS.map(({ label, to, tag }) => (
+            {navLinks.map(({ label, to, tag }) => (
               <Link key={to} className="ln-navbar-mobile-link" to={to} onClick={() => setMenuOpen(false)}>
                 {label}
                 {tag && <span className="ln-navbar-tag">{tag}</span>}
@@ -394,7 +400,7 @@ const Navbar = ({ showDocs }) => {
                           </>
                         )}
 
-                        {cat.index === 0 && (
+                        {cat.index === 0 && !catalog && (
                           <>
                             {/* Mirrors the desktop sidebar, where Pro sits directly
                                 below Get Started and above Tools. */}

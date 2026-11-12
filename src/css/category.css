@@ -2657,3 +2657,8 @@
     display: none !important;
   }
 }
+
+.category-wrapper.catalog-layout {
+  --content-inset-right: 0px;
+  --content-col-max: 1280px;
+}

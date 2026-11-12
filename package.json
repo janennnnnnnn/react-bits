@@ -33,7 +33,8 @@
     "predev": "npm run pro:summary",
     "prebuild": "npm run pro:summary",
     "pro:sync": "node scripts/syncProCatalog.js",
-    "pro:sync:check": "node scripts/syncProCatalog.js --check"
+    "pro:sync:check": "node scripts/syncProCatalog.js --check",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.20.0",
@@ -51,6 +52,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "face-api.js": "^0.22.2",
+    "fflate": "^0.8.2",
     "geist": "^1.7.0",
     "gifenc": "^1.0.3",
     "gl-matrix": "^3.4.3",

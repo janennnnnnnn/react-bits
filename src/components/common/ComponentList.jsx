@@ -298,7 +298,11 @@ const ComponentList = ({
     }
   }, [showClear]);
 
-  const getColumnsForWidth = useCallback(w => (w >= 700 ? 3 : w >= 480 ? 2 : 1), []);
+  const getColumnsForWidth = useCallback(width => {
+    if (width >= 1120) return 4;
+    if (width >= 700) return 3;
+    return width >= 480 ? 2 : 1;
+  }, []);
 
   const clearFilters = () => {
     setSearch('');

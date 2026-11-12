@@ -5,7 +5,7 @@ import { InstallationProvider } from '../../components/context/InstallationConte
 
 export default function Providers({ children }) {
   return (
-    <SearchProvider>
+    <SearchProvider catalog>
       <OptionsProvider>
         <TransitionProvider>
           <InstallationProvider>{children}</InstallationProvider>

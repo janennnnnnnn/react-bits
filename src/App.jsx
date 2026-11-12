@@ -1,11 +1,12 @@
 import { lazy, Suspense } from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes, useLocation, useParams } from 'react-router-dom';
+import { Navigate, Route, BrowserRouter as Router, Routes, useParams } from 'react-router-dom';
 import { NuqsAdapter } from 'nuqs/adapters/react-router/v6';
 import Providers from './components/layout/Providers';
 import { ActiveRouteProvider } from './components/context/ActiveRouteContext/ActiveRouteContext';
-import LandingPage from './pages/LandingPage';
 import { TOOLS } from './constants/Tools';
 import usePrefetchOnIntent from './hooks/usePrefetchOnIntent';
+
+const TemplateLibrary = lazy(() => import('./template-library/TemplateLibrary'));
 
 const loadDocs = () => import('./routes/DocsRoutes');
 const loadShowcase = () => import('./pages/ShowcasePage');
@@ -22,7 +23,6 @@ const SponsorsPage = lazy(loadSponsors);
 const ToolsPage = lazy(loadTools);
 const ProPage = lazy(loadPro);
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
-const AnnouncementModal = lazy(() => import('./components/common/AnnouncementModal/AnnouncementModal'));
 const ChakraScope = lazy(loadChakra);
 
 const withChakra = load => () => Promise.all([load(), loadChakra()]);
@@ -42,11 +42,9 @@ const ToolsRoute = () => {
 
 function AppContent() {
   usePrefetchOnIntent(PREFETCH_RULES);
-  const { pathname } = useLocation();
-  const landing = pathname === '/';
   const routes = (
     <Routes>
-      <Route exact path="/" element={<LandingPage />} />
+      <Route exact path="/" element={<TemplateLibrary />} />
       <Route exact path="/showcase" element={<ShowcasePage />} />
       <Route exact path="/sponsors" element={<SponsorsPage />} />
       <Route exact path="/changelog" element={<Navigate to="/get-started/changelog" replace />} />
@@ -63,9 +61,8 @@ function AppContent() {
   return (
     <>
       <Providers>
-        <Suspense fallback={null}>{landing ? routes : <ChakraScope>{routes}</ChakraScope>}</Suspense>
         <Suspense fallback={null}>
-          <AnnouncementModal />
+          <ChakraScope>{routes}</ChakraScope>
         </Suspense>
       </Providers>
     </>

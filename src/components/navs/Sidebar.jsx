@@ -270,7 +270,16 @@ const UsefulLinks = ({ onClose }) => (
   </>
 );
 
-const MainDrawer = ({ isOpen, onClose, categories, location, pendingActivePath, onNavigation, isTransitioning }) => (
+const MainDrawer = ({
+  isOpen,
+  onClose,
+  categories,
+  location,
+  pendingActivePath,
+  onNavigation,
+  isTransitioning,
+  catalog
+}) => (
   <Drawer.Root open={isOpen} onOpenChange={onClose} placement="left" size="full">
     <Drawer.Backdrop mt="50px" h="calc(100vh - 50px)" />
     <Drawer.Positioner
@@ -309,11 +318,11 @@ const MainDrawer = ({ isOpen, onClose, categories, location, pendingActivePath, 
                   isTransitioning={isTransitioning}
                   isFirstCategory={i === 0}
                 />
-                {i === 0 && <ProLinks onClose={onClose} />}
+                {!catalog && i === 0 && <ProLinks onClose={onClose} />}
               </Box>
             ))}
           </VStack>
-          <UsefulLinks onClose={onClose} />
+          {!catalog && <UsefulLinks onClose={onClose} />}
         </Drawer.Body>
       </Drawer.Content>
     </Drawer.Positioner>
@@ -439,7 +448,7 @@ const Category = memo(
 Category.displayName = 'Category';
 
 // ─── Main Component ──────────────────────────────────────────────────────────
-const Sidebar = () => {
+const Sidebar = ({ catalog = false }) => {
   // State
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isSponsorsOpen, setSponsorsOpen] = useState(false);
@@ -513,7 +522,7 @@ const Sidebar = () => {
   const showSidebarFavorites = !sidebarFilterQuery || 'favorites saved'.includes(sidebarFilterQuery);
   const sidebarHasResults =
     showSidebarFavorites ||
-    sidebarProSections.length > 0 ||
+    (!catalog && sidebarProSections.length > 0) ||
     sidebarCategories.some(category => category.subcategories.length > 0);
   const firstVisibleCategory = sidebarCategories.find(
     category => category.subcategories.length > 0 || (category.index === 0 && showSidebarFavorites)
@@ -687,6 +696,7 @@ const Sidebar = () => {
       <MainDrawer
         isOpen={isDrawerOpen}
         onClose={closeDrawer}
+        catalog={catalog}
         categories={CATEGORIES}
         location={location}
         pendingActivePath={pendingActivePath}
@@ -810,7 +820,7 @@ const Sidebar = () => {
                   )}
 
                   {/* Pro Section - after Get Started */}
-                  {cat.index === 0 && sidebarProSections.length > 0 && (
+                  {!catalog && cat.index === 0 && sidebarProSections.length > 0 && (
                     <Box>
                       <Text className="category-name sidebar-pro-name" mb={2} mt={4}>
                         Explore Pro

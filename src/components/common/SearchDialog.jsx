@@ -109,7 +109,7 @@ const ResultRow = ({ index, selected, icon, title, badge, meta, trail, onHover, 
   </div>
 );
 
-const SearchDialog = ({ isOpen, onClose }) => {
+const SearchDialog = ({ isOpen, onClose, catalog = false }) => {
   const [inputValue, setInputValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [topGradientOpacity, setTopGradientOpacity] = useState(0);
@@ -123,7 +123,7 @@ const SearchDialog = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   // Only fetched once the dialog has been opened, and cached from then on.
-  const { manifest } = useProManifest({ enabled: isOpen && !freeOnly });
+  const { manifest } = useProManifest({ enabled: isOpen && !catalog && !freeOnly });
 
   useEffect(() => {
     const t = setTimeout(() => {
@@ -136,8 +136,8 @@ const SearchDialog = ({ isOpen, onClose }) => {
   const freeResults = useMemo(() => searchComponents(searchValue), [searchValue]);
 
   const proResults = useMemo(
-    () => (freeOnly ? [] : searchPro(manifest, searchValue)),
-    [freeOnly, manifest, searchValue]
+    () => (catalog || freeOnly ? [] : searchPro(manifest, searchValue)),
+    [catalog, freeOnly, manifest, searchValue]
   );
 
   // One flat list so arrow keys and Enter run across both groups.
@@ -362,11 +362,13 @@ const SearchDialog = ({ isOpen, onClose }) => {
               Open
             </span>
           </div>
-          <label className="search-toggle">
-            Free only
-            <input type="checkbox" role="switch" checked={freeOnly} onChange={toggleFreeOnly} />
-            <span className="search-switch" aria-hidden="true" />
-          </label>
+          {!catalog && (
+            <label className="search-toggle">
+              Free only
+              <input type="checkbox" role="switch" checked={freeOnly} onChange={toggleFreeOnly} />
+              <span className="search-switch" aria-hidden="true" />
+            </label>
+          )}
         </div>
       </div>
     </div>

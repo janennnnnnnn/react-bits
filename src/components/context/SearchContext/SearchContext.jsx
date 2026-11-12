@@ -5,7 +5,7 @@ const SearchDialog = lazy(() => import('../../common/SearchDialog'));
 
 export const SearchContext = createContext();
 
-export function SearchProvider({ children }) {
+export function SearchProvider({ children, catalog = false }) {
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const openSearch = useCallback(() => setSearchOpen(true), []);
@@ -34,7 +34,7 @@ export function SearchProvider({ children }) {
       {children}
       {mounted && (
         <Suspense fallback={null}>
-          <SearchDialog isOpen={isSearchOpen} onClose={closeSearch} />
+          <SearchDialog catalog={catalog} isOpen={isSearchOpen} onClose={closeSearch} />
         </Suspense>
       )}
     </SearchContext.Provider>
