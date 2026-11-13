@@ -1,3 +1,4 @@
+import { resourceItems } from './resourceItems';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ArrowUpFromLine, Bookmark, ExternalLink, FileArchive, Link2, Search, X } from 'lucide-react';
@@ -167,10 +168,9 @@ function Upload({ kind, close, onSave }) {
 export default function TemplateLibrary() {
   usePageSEO({ title: 'HTML Template Library', description: 'Browse and preview HTML templates.', path: '/' });
   const [searchParams, setSearchParams] = useSearchParams();
-  const [library, setLibrary] = useState(() => {
-    const view = searchParams.get('view');
-    return ['Poster', 'Asset', 'Skills', ...starterItems].includes(view) ? view : 'HTML';
-  });
+  const view = searchParams.get('view');
+  const library = ['Poster', 'Asset', 'Skills', ...starterItems].includes(view) ? view : 'HTML';
+  const isResources = library === 'Asset' || library === 'Skills';
   const [category, setCategory] = useState('All');
   const [sort, setSort] = useState('Newest');
   const [query, setQuery] = useState('');
@@ -202,7 +202,7 @@ export default function TemplateLibrary() {
   }, [searchParams]);
 
   const isLibrary = library === 'HTML' || library === 'Poster';
-  const all = [...uploads, ...samples]
+  const all = (isResources ? resourceItems : [...uploads, ...samples])
     .filter(template => (template.kind ?? 'HTML') === library)
     .sort((a, b) => b.created - a.created);
   const needle = query.trim().toLowerCase();
@@ -225,8 +225,12 @@ export default function TemplateLibrary() {
   }
 
   function selectLibrary(value) {
-    setLibrary(value);
-    closePreview();
+    const params = new URLSearchParams();
+    if (value !== 'HTML') params.set('view', value);
+    setSearchParams(params);
+    setPreview(null);
+    setCategory('All');
+    setQuery('');
   }
 
   function browse(value, kind = isLibrary ? library : 'HTML') {
@@ -246,6 +250,8 @@ export default function TemplateLibrary() {
 
   function openTemplate(template) {
     const params = new URLSearchParams(searchParams);
+    if (template.kind && template.kind !== 'HTML') params.set('view', template.kind);
+    else params.delete('view');
     if (template.shareable) params.set('template', template.id);
     else params.delete('template');
     setSearchParams(params, { replace: true });
@@ -295,10 +301,10 @@ export default function TemplateLibrary() {
           <p>Browse</p>
           <button
             className="tl-all-templates"
-            aria-current={isLibrary && !preview ? 'page' : undefined}
-            onClick={() => browse('All')}
+            aria-current={(isLibrary || isResources) && !preview ? 'page' : undefined}
+            onClick={() => browse('All', isResources ? library : undefined)}
           >
-            All Templates
+            {isResources ? 'All Resources' : 'All Templates'}
           </button>
           {all.map(template => (
             <button
@@ -333,15 +339,14 @@ export default function TemplateLibrary() {
           )}
         </aside>
         <main className="tl-main">
-          <div className="tl-tabs" aria-label="Library type">
-            <button aria-pressed={library === 'HTML'} onClick={() => selectLibrary('HTML')}>
-              HTML
-            </button>
-            <button aria-pressed={library === 'Poster'} onClick={() => selectLibrary('Poster')}>
-              Poster
-            </button>
+          <div className="tl-tabs" aria-label={isResources ? 'Resource type' : 'Library type'}>
+            {(isResources ? ['Asset', 'Skills'] : ['HTML', 'Poster']).map(item => (
+              <button key={item} aria-pressed={library === item} onClick={() => selectLibrary(item)}>
+                {item}
+              </button>
+            ))}
           </div>
-          {!isLibrary ? (
+          {!isLibrary && !isResources ? (
             <>
               <h1>{library}</h1>
               <div className="tl-empty">待开发</div>
@@ -359,10 +364,10 @@ export default function TemplateLibrary() {
           ) : (
             <>
               <div className="tl-title">
-                <h1>{library} Template</h1>
-                <button className="tl-upload" onClick={() => setUploadOpen(true)}>
+                <h1>{isResources ? library : `${library} Template`}</h1>
+                {isLibrary && <button className="tl-upload" onClick={() => setUploadOpen(true)}>
                   <ArrowUpFromLine size={19} /> Upload
-                </button>
+                </button>}
               </div>
               <div className="tl-toolbar">
                 <label className="tl-search">
@@ -370,13 +375,13 @@ export default function TemplateLibrary() {
                   <input
                     ref={search}
                     type="search"
-                    aria-label="Search templates"
+                    aria-label={isResources ? 'Search resources' : 'Search templates'}
                     placeholder="Search"
                     value={query}
                     onChange={event => setQuery(event.target.value)}
                   />
                 </label>
-                <div className="tl-segments" aria-label="Sort templates">
+                <div className="tl-segments" aria-label={isResources ? 'Sort resources' : 'Sort templates'}>
                   {['Newest', 'A–Z', 'Z–A'].map(item => (
                     <button key={item} aria-pressed={sort === item} onClick={() => setSort(item)}>
                       {item}
@@ -386,7 +391,7 @@ export default function TemplateLibrary() {
               </div>
               <div className="tl-filters">
                 <div className="tl-categories" aria-label="Template category">
-                  {['All', ...categories].map(item => (
+                  {['All', ...(isResources ? new Set(all.map(item => item.category)) : categories)].map(item => (
                     <button key={item} aria-pressed={category === item} onClick={() => setCategory(item)}>
                       {item}
                       {item === 'All' && <span>{all.length}</span>}
@@ -428,7 +433,8 @@ export default function TemplateLibrary() {
               ) : (
                 <div className="tl-empty">
                   {all.length
-                    ? 'No templates match your search.'
+                    ? isResources ? 'No resources match your search.' : 'No templates match your search.'
+                    : isResources ? (library === 'Asset' ? 'No assets yet.' : 'No skills yet.')
                     : 'No templates yet. Upload a template to get started.'}
                 </div>
               )}

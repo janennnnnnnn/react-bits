@@ -31,13 +31,7 @@ export default function LibraryHeader({ active, onSelect, onSearch, onHome }) {
     };
   }, []);
 
-  function option(name, pending) {
-    const content = (
-      <>
-        {name}
-        {pending && <span className="tl-pending">待开发</span>}
-      </>
-    );
+  function option(name) {
     return onSelect ? (
       <button
         key={name}
@@ -47,11 +41,11 @@ export default function LibraryHeader({ active, onSelect, onSearch, onHome }) {
           setMenu(null);
         }}
       >
-        {content}
+        {name}
       </button>
     ) : (
       <Link key={name} to={libraryView(name)} onClick={() => setMenu(null)}>
-        {content}
+        {name}
       </Link>
     );
   }
@@ -79,7 +73,7 @@ export default function LibraryHeader({ active, onSelect, onSearch, onHome }) {
               <ChevronDown size={14} />
             </button>
             {menu === label && (
-              <div className="tl-popover">{options.map(name => option(name, label === 'Resources'))}</div>
+              <div className="tl-popover">{options.map(option)}</div>
             )}
           </div>
         ))}
