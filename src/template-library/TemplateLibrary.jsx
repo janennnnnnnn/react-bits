@@ -1,21 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowUpFromLine, Bookmark, ChevronDown, ExternalLink, FileArchive, Link2, Search, X } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
+import { ArrowUpFromLine, Bookmark, ExternalLink, FileArchive, Link2, Search, X } from 'lucide-react';
 import { samples } from './samples';
+import TemplateDetail from './TemplateDetail';
+import LibraryHeader, { starterItems } from './LibraryHeader';
+import { original } from './customize';
 import { deleteTemplate, getTemplates, saveTemplate, unpackTemplate } from './storage';
 import usePageSEO from '../hooks/usePageSEO';
-import logo from '../assets/logos/react-bits-logo-small.svg';
 import './library.css';
 
 const categories = ['Presentation', 'Product', 'Solution', 'Exhibition'];
-const menus = [
-  ['Library', ['HTML', 'Poster']],
-  ['Resources', ['Asset', 'Skills']],
-  ['Creative Tools', ['Background', 'Text', 'Texture']]
-];
-const starterItems = ['Introduction', 'Installation', 'MCP Server', 'Saved'];
-
-function Modal({ title, close, children, wide }) {
+function Modal({ title, close, children }) {
   const ref = useRef(null);
   useEffect(() => {
     ref.current.showModal();
@@ -23,7 +18,7 @@ function Modal({ title, close, children, wide }) {
   return (
     <dialog
       ref={ref}
-      className={wide ? 'tl-dialog tl-dialog-wide' : 'tl-dialog'}
+      className="tl-dialog"
       aria-label={title}
       onCancel={event => {
         event.preventDefault();
@@ -60,7 +55,7 @@ function Frame({ template, thumbnail = false }) {
   );
 }
 
-function Upload({ close, onSave }) {
+function Upload({ kind, close, onSave }) {
   const [source, setSource] = useState('link');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -73,6 +68,7 @@ function Upload({ close, onSave }) {
     try {
       const template = {
         id: crypto.randomUUID(),
+        kind,
         name: data.get('name').trim(),
         category: data.get('category'),
         description: data.get('description').trim(),
@@ -95,7 +91,7 @@ function Upload({ close, onSave }) {
   }
 
   return (
-    <Modal title="Upload HTML template" close={busy ? () => {} : close}>
+    <Modal title={`Upload ${kind} template`} close={busy ? () => {} : close}>
       <form className="tl-form" onSubmit={submit}>
         <fieldset disabled={busy}>
           <div className="tl-segments" aria-label="Import method">
@@ -170,18 +166,22 @@ function Upload({ close, onSave }) {
 
 export default function TemplateLibrary() {
   usePageSEO({ title: 'HTML Template Library', description: 'Browse and preview HTML templates.', path: '/' });
-  const [library, setLibrary] = useState('HTML');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [library, setLibrary] = useState(() => {
+    const view = searchParams.get('view');
+    return ['Poster', 'Asset', 'Skills', ...starterItems].includes(view) ? view : 'HTML';
+  });
   const [category, setCategory] = useState('All');
   const [sort, setSort] = useState('Newest');
   const [query, setQuery] = useState('');
   const [uploads, setUploads] = useState([]);
   const [uploadOpen, setUploadOpen] = useState(false);
-  const [preview, setPreview] = useState(null);
-  const [pendingRemoval, setPendingRemoval] = useState(null);
+  const [localPreview, setPreview] = useState(null);
+  const sharedPreview = samples.find(item => item.shareable && item.id === searchParams.get('template'));
+  const preview = localPreview ?? sharedPreview;
+  const [customizations, setCustomizations] = useState({});
   const [notice, setNotice] = useState('');
-  const [menu, setMenu] = useState(null);
   const search = useRef(null);
-  const nav = useRef(null);
 
   useEffect(() => {
     getTemplates()
@@ -192,20 +192,19 @@ export default function TemplateLibrary() {
         event.preventDefault();
         search.current.focus();
       }
-      if (event.key === 'Escape') setMenu(null);
-    }
-    function dismiss(event) {
-      if (!nav.current?.contains(event.target)) setMenu(null);
     }
     document.addEventListener('keydown', shortcut);
-    document.addEventListener('pointerdown', dismiss);
-    return () => {
-      document.removeEventListener('keydown', shortcut);
-      document.removeEventListener('pointerdown', dismiss);
-    };
+    return () => document.removeEventListener('keydown', shortcut);
   }, []);
 
-  const all = [...uploads, ...samples];
+  useEffect(() => {
+    if (searchParams.get('focus') === 'search') search.current?.focus();
+  }, [searchParams]);
+
+  const isLibrary = library === 'HTML' || library === 'Poster';
+  const all = [...uploads, ...samples]
+    .filter(template => (template.kind ?? 'HTML') === library)
+    .sort((a, b) => b.created - a.created);
   const needle = query.trim().toLowerCase();
   const items = all.filter(
     item =>
@@ -216,13 +215,22 @@ export default function TemplateLibrary() {
     sort === 'Newest' ? b.created - a.created : (sort === 'A–Z' ? 1 : -1) * a.name.localeCompare(b.name)
   );
 
-  function selectLibrary(value) {
-    setLibrary(value);
-    setMenu(null);
+  function closePreview() {
+    setPreview(null);
+    if (searchParams.has('template')) {
+      const params = new URLSearchParams(searchParams);
+      params.delete('template');
+      setSearchParams(params, { replace: true });
+    }
   }
 
-  function browse(value) {
-    selectLibrary('HTML');
+  function selectLibrary(value) {
+    setLibrary(value);
+    closePreview();
+  }
+
+  function browse(value, kind = isLibrary ? library : 'HTML') {
+    selectLibrary(kind);
     setCategory(value);
     setQuery('');
   }
@@ -230,10 +238,25 @@ export default function TemplateLibrary() {
   async function importTemplate(template) {
     await saveTemplate(template);
     setUploads(current => [...current, template]);
-    browse('All');
+    browse('All', template.kind);
     setSort('Newest');
     setUploadOpen(false);
-    setPreview(template);
+    openTemplate(template);
+  }
+
+  function openTemplate(template) {
+    const params = new URLSearchParams(searchParams);
+    if (template.shareable) params.set('template', template.id);
+    else params.delete('template');
+    setSearchParams(params, { replace: true });
+    setPreview(template.shareable ? null : template);
+    window.scrollTo(0, 0);
+  }
+
+  async function updateSource(template) {
+    await saveTemplate(template);
+    setUploads(current => current.map(item => (item.id === template.id ? template : item)));
+    setPreview(current => (current?.id === template.id ? template : current));
   }
 
   async function removeTemplate(template) {
@@ -249,49 +272,15 @@ export default function TemplateLibrary() {
 
   return (
     <div className="template-library">
-      <header className="tl-header">
-        <Link to="/" className="tl-logo" aria-label="Template Library home" onClick={() => browse('All')}>
-          <img src={logo} alt="" />
-        </Link>
-        <nav className="tl-nav" aria-label="Main navigation" ref={nav}>
-          {menus.map(([label, options]) => (
-            <div className="tl-menu" key={label}>
-              <button
-                aria-expanded={menu === label}
-                onClick={() => setMenu(current => (current === label ? null : label))}
-              >
-                {label}
-                <ChevronDown size={14} />
-              </button>
-              {menu === label && (
-                <div className="tl-popover">
-                  {options.map(name => (
-                    <button
-                      key={name}
-                      aria-current={library === name ? 'page' : undefined}
-                      onClick={() => selectLibrary(name)}
-                    >
-                      {name}
-                      {name !== 'HTML' && <span className="tl-pending">待开发</span>}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-          <button
-            className="tl-global-search"
-            onClick={() => {
-              selectLibrary('HTML');
-              requestAnimationFrame(() => search.current?.focus());
-            }}
-          >
-            <Search size={16} />
-            <span>Search…</span>
-            <kbd>⌘ K</kbd>
-          </button>
-        </nav>
-      </header>
+      <LibraryHeader
+        active={library}
+        onSelect={selectLibrary}
+        onHome={() => browse('All', 'HTML')}
+        onSearch={() => {
+          selectLibrary('HTML');
+          requestAnimationFrame(() => search.current?.focus());
+        }}
+      />
       <div className="tl-layout">
         <aside className="tl-sidebar" aria-label="Library navigation">
           <p>Get Started</p>
@@ -304,15 +293,44 @@ export default function TemplateLibrary() {
           ))}{' '}
           <hr />
           <p>Browse</p>
-          {['All', ...categories].map(item => (
+          <button
+            className="tl-all-templates"
+            aria-current={isLibrary && !preview ? 'page' : undefined}
+            onClick={() => browse('All')}
+          >
+            All Templates
+          </button>
+          {all.map(template => (
             <button
-              key={item}
-              aria-current={library === 'HTML' && category === item ? 'page' : undefined}
-              onClick={() => browse(item)}
+              className="tl-sidebar-template"
+              key={template.id}
+              title={template.name}
+              aria-current={preview?.id === template.id ? 'page' : undefined}
+              onClick={() => openTemplate(template)}
             >
-              {item === 'All' ? 'All Templates' : item}
+              <span>{template.name}</span>
             </button>
           ))}
+          {isLibrary && (
+            <label className="tl-mobile-browse">
+              <span>Browse</span>
+              <select
+                value={preview?.id ?? ''}
+                onChange={event => {
+                  const template = all.find(item => item.id === event.target.value);
+                  if (template) openTemplate(template);
+                  else browse('All');
+                }}
+              >
+                <option value="">All Templates</option>
+                {all.map(template => (
+                  <option key={template.id} value={template.id}>
+                    {template.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
         </aside>
         <main className="tl-main">
           <div className="tl-tabs" aria-label="Library type">
@@ -323,15 +341,25 @@ export default function TemplateLibrary() {
               Poster
             </button>
           </div>
-          {library !== 'HTML' ? (
+          {!isLibrary ? (
             <>
               <h1>{library}</h1>
               <div className="tl-empty">待开发</div>
             </>
+          ) : preview ? (
+            <TemplateDetail
+              key={preview.id}
+              template={preview}
+              settings={customizations[preview.id] ?? original}
+              onSettings={settings => setCustomizations(current => ({ ...current, [preview.id]: settings }))}
+              onBack={closePreview}
+              onSource={updateSource}
+              onRemove={removeTemplate}
+            />
           ) : (
             <>
               <div className="tl-title">
-                <h1>HTML Template</h1>
+                <h1>{library} Template</h1>
                 <button className="tl-upload" onClick={() => setUploadOpen(true)}>
                   <ArrowUpFromLine size={19} /> Upload
                 </button>
@@ -382,7 +410,7 @@ export default function TemplateLibrary() {
                         <Frame template={template} thumbnail />
                         <button
                           className="tl-cover"
-                          onClick={() => setPreview(template)}
+                          onClick={() => openTemplate(template)}
                           aria-label={`Preview ${template.name}`}
                         />
                         {template.sample && <span className="tl-badge">Sample</span>}
@@ -390,7 +418,7 @@ export default function TemplateLibrary() {
                       <div className="tl-card-body">
                         <h2>{template.name}</h2>
                         <p>{template.description || template.category}</p>
-                        <button className="tl-preview" onClick={() => setPreview(template)}>
+                        <button className="tl-preview" onClick={() => openTemplate(template)}>
                           <ExternalLink size={16} /> Live Preview
                         </button>
                       </div>
@@ -398,49 +426,17 @@ export default function TemplateLibrary() {
                   ))}
                 </div>
               ) : (
-                <div className="tl-empty">No templates match your search.</div>
+                <div className="tl-empty">
+                  {all.length
+                    ? 'No templates match your search.'
+                    : 'No templates yet. Upload a template to get started.'}
+                </div>
               )}
             </>
           )}
         </main>
       </div>
-      {uploadOpen && <Upload close={() => setUploadOpen(false)} onSave={importTemplate} />}
-      {preview && (
-        <Modal
-          wide
-          title={preview.name}
-          close={() => {
-            setPendingRemoval(null);
-            setPreview(null);
-          }}
-        >
-          <Frame template={preview} />
-          <footer className="tl-preview-footer">
-            <span>{preview.category}</span>
-            {preview.url && (
-              <a href={preview.url} target="_blank" rel="noopener noreferrer">
-                Open original <ExternalLink size={14} />
-              </a>
-            )}
-            {!preview.sample &&
-              (pendingRemoval === preview.id ? (
-                <div className="tl-removal">
-                  <button onClick={() => setPendingRemoval(null)}>Cancel</button>
-                  <button
-                    onClick={() => {
-                      setPendingRemoval(null);
-                      removeTemplate(preview);
-                    }}
-                  >
-                    Confirm removal
-                  </button>
-                </div>
-              ) : (
-                <button onClick={() => setPendingRemoval(preview.id)}>Remove</button>
-              ))}
-          </footer>
-        </Modal>
-      )}
+      {uploadOpen && <Upload kind={library} close={() => setUploadOpen(false)} onSave={importTemplate} />}
     </div>
   );
 }

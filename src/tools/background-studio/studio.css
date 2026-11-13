@@ -407,6 +407,17 @@
   color-scheme: inherit;
 }
 
+.bs-stage[data-poster] {
+  container-type: size;
+}
+
+.bs-stage[data-poster] .bs-frame {
+  inset: 50% auto auto 50%;
+  translate: -50% -50%;
+  width: min(100cqw, 75cqh);
+  height: min(100cqh, calc(100cqw * 4 / 3));
+}
+
 .demo-container.bs-stage > .bs-overlay {
   clip-path: none !important;
 }
@@ -1496,4 +1507,14 @@
   .bs-spinner {
     animation-duration: 2.4s;
   }
+}
+
+.bs-save-effect {
+  flex: none;
+  white-space: nowrap;
+  padding-inline: 10px;
+}
+.bs-save-effect:disabled {
+  opacity: 0.55;
+  cursor: wait;
 }

@@ -1,4 +1,7 @@
-const MODULES = import.meta.glob('../../../demo/*/presets/*.js');
+const MODULES = {
+  ...import.meta.glob('../presets/*.js'),
+  ...import.meta.glob('../../../demo/*/presets/*.js')
+};
 
 const cache = new Map();
 const resolved = new Map();

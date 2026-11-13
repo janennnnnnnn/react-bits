@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="224" height="88" viewBox="0 0 224 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Layer flow / Transparent curved ribbon">
+<path id="Vector" d="M36 0C36 25 100 16 100 48H76L132 88L188 48H164C164 12 100 25 100 0H36Z" fill="url(#paint0_linear_0_54)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_54" x1="112" y1="0" x2="112" y2="88" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2A7DE1" stop-opacity="0"/>
+<stop offset="1" stop-color="#72D6F1" stop-opacity="0.5"/>
+</linearGradient>
+</defs>
+</svg>

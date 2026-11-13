@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { DEMO_MODES, demoModesFor, demoView } from '../../components/common/Preview/demoModes';
+import { saveEffect } from '../../template-library/effects';
 import { useStudioState } from './hooks/useStudioState';
 import { useStageFrame } from './hooks/useStageFrame';
 import { sameValue, serializeValue, writeDocument } from './utils/params';
+import { renderEffectImage } from './utils/effectImage';
 import { canvasToBlob, downloadBlob } from './utils/download';
 import { oneOf, recall, remember } from './utils/remember';
 import { CATALOG, findEntry } from './utils/catalog';
@@ -18,7 +20,7 @@ import SessionSave from './components/SessionSave';
 import './studio.css';
 
 const INTENT_MS = 90;
-const WIDE_QUERY = '(min-width: 1280px)';
+const WIDE_QUERY = '(min-width: 1160px)';
 const DESKTOP_QUERY = '(min-width: 1024px)';
 const PAGE_FILL = { dark: '#120f17', light: '#ffffff' };
 
@@ -73,7 +75,12 @@ export default function BackgroundStudio({ toolSelector }) {
   }, []);
 
   const modes = useMemo(
-    () => demoModesFor(narrow).map(item => ({ value: item.value, label: item.label, icon: item.icon })),
+    () =>
+      demoModesFor(narrow).map(item => ({
+        value: item.value,
+        label: item.value === 'card' ? 'Poster (3:4)' : item.label,
+        icon: item.icon
+      })),
     [narrow]
   );
 
@@ -82,10 +89,14 @@ export default function BackgroundStudio({ toolSelector }) {
 
   const docsHref = useMemo(() => {
     const params = new URLSearchParams();
-    if (state.doc.preset) params.set('preset', state.doc.preset);
+    if (state.doc.preset && entry.id !== 'aurora') params.set('preset', state.doc.preset);
     (entry.props || []).forEach(definition => {
       const value = state.props[definition.name];
-      if (value !== undefined && !sameValue(value, state.defaults[definition.name])) {
+      const defaults =
+        entry.id === 'aurora' && definition.name === 'colorStops'
+          ? definition.default
+          : state.defaults[definition.name];
+      if (value !== undefined && !sameValue(value, defaults)) {
         params.set(definition.name, serializeValue(value));
       }
     });
@@ -116,8 +127,32 @@ export default function BackgroundStudio({ toolSelector }) {
     }
   }, []);
 
+  const [savingEffect, setSavingEffect] = useState(false);
+  const saveCurrentEffect = useCallback(async () => {
+    const { light: isLight, entry: active, doc } = latest.current;
+    setSavingEffect(true);
+    try {
+      const theme = isLight ? 'light' : 'dark';
+      const configuration = writeDocument(doc, active).toString();
+      const image = await renderEffectImage(configuration, theme);
+      await saveEffect({
+        id: (isLight ? 'light:' : 'dark:') + configuration,
+        name: active.label + (doc.preset ? ' · ' + doc.preset.toUpperCase() : ''),
+        image,
+        slideReady: true,
+        configuration,
+        created: Date.now()
+      });
+      toast.success('Saved to My Effects');
+    } catch {
+      toast.error('Could not save this effect');
+    } finally {
+      setSavingEffect(false);
+    }
+  }, []);
+
   const openExport = useCallback(tab => {
-    const rect = stageRef.current?.getBoundingClientRect();
+    const rect = latest.current.frame.iframeRef.current?.getBoundingClientRect();
     setStageSize(rect ? { width: rect.width, height: rect.height } : null);
     setExporting(tab);
   }, []);
@@ -249,6 +284,8 @@ export default function BackgroundStudio({ toolSelector }) {
           onSnapshot={saveSnapshot}
           onFullscreen={toggleFullscreen}
           onCopyLink={copyLink}
+          onSaveEffect={saveCurrentEffect}
+          savingEffect={savingEffect}
           onExport={openCodeExport}
         />
         <Stage

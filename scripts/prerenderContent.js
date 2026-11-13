@@ -1,5 +1,5 @@
 import { CATEGORY_SEO } from '../src/utils/seo.js';
-import { TOOLS } from '../src/constants/Tools.js';
+import { CREATIVE_TOOLS as TOOLS } from '../src/constants/Tools.js';
 import { SHOWCASE_ITEMS } from '../src/constants/Showcase.js';
 import { getChangelogEntries } from '../src/utils/changelog.js';
 

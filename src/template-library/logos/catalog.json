@@ -1,0 +1,447 @@
+[
+  {
+    "id": "52:11",
+    "name": "AirLauncher · AirLauncher Logo",
+    "file": "logo-52-11.png"
+  },
+  {
+    "id": "52:21",
+    "name": "AirLauncher · AirLauncher Logo1",
+    "file": "logo-52-21.png"
+  },
+  {
+    "id": "52:31",
+    "name": "AirLauncher · AirLauncher Logo1 Backup 2",
+    "file": "logo-52-31.png"
+  },
+  {
+    "id": "52:41",
+    "name": "AirLauncher · AirLauncher Logo1 Backup 4",
+    "file": "logo-52-41.svg"
+  },
+  {
+    "id": "52:51",
+    "name": "AirLauncher · AirLauncher Logo2",
+    "file": "logo-52-51.png"
+  },
+  {
+    "id": "69:3",
+    "name": "Layout · White logo",
+    "file": "logo-69-3.png"
+  },
+  {
+    "id": "114:57",
+    "name": "Logo combination · PAX + MAXSTORE",
+    "file": "logo-114-57.png"
+  },
+  {
+    "id": "87:82",
+    "name": "Lockup=With tagline, Color=White",
+    "file": "logo-87-82.png"
+  },
+  {
+    "id": "87:132",
+    "name": "Lockup=Without tagline, Color=White",
+    "file": "logo-87-132.png"
+  },
+  {
+    "id": "87:152",
+    "name": "Lockup=Wordmark, Color=White",
+    "file": "logo-87-152.png"
+  },
+  {
+    "id": "508:152",
+    "name": "Logo combination · MAXSTORE + Product",
+    "file": "logo-508-152.png"
+  },
+  {
+    "id": "52:63",
+    "name": "AirLink · AirLink C",
+    "file": "logo-52-63.png"
+  },
+  {
+    "id": "52:73",
+    "name": "AirLink · AirLink H-C",
+    "file": "logo-52-73.png"
+  },
+  {
+    "id": "52:83",
+    "name": "AirLink · AirLink H-W",
+    "file": "logo-52-83.png"
+  },
+  {
+    "id": "52:93",
+    "name": "AirLink · AirLink W",
+    "file": "logo-52-93.png"
+  },
+  {
+    "id": "52:105",
+    "name": "AirLoad · AirLoad C",
+    "file": "logo-52-105.png"
+  },
+  {
+    "id": "52:115",
+    "name": "AirLoad · AirLoad H C",
+    "file": "logo-52-115.png"
+  },
+  {
+    "id": "52:125",
+    "name": "AirLoad · AirLoad H W",
+    "file": "logo-52-125.png"
+  },
+  {
+    "id": "52:135",
+    "name": "AirLoad · AirLoad W",
+    "file": "logo-52-135.png"
+  },
+  {
+    "id": "52:147",
+    "name": "AirViewer · AirViewer color",
+    "file": "logo-52-147.png"
+  },
+  {
+    "id": "52:157",
+    "name": "AirViewer · AirViewer h color",
+    "file": "logo-52-157.png"
+  },
+  {
+    "id": "52:167",
+    "name": "AirViewer · AirViewer h white",
+    "file": "logo-52-167.png"
+  },
+  {
+    "id": "52:177",
+    "name": "AirViewer · AirViewer v color",
+    "file": "logo-52-177.png"
+  },
+  {
+    "id": "52:187",
+    "name": "AirViewer · AirViewer v white",
+    "file": "logo-52-187.png"
+  },
+  {
+    "id": "52:197",
+    "name": "AirViewer · AirViewer white",
+    "file": "logo-52-197.png"
+  },
+  {
+    "id": "52:209",
+    "name": "AppScan · AppScan color",
+    "file": "logo-52-209.png"
+  },
+  {
+    "id": "52:219",
+    "name": "AppScan · AppScan h color",
+    "file": "logo-52-219.png"
+  },
+  {
+    "id": "52:229",
+    "name": "AppScan · AppScan h white",
+    "file": "logo-52-229.png"
+  },
+  {
+    "id": "52:239",
+    "name": "AppScan · AppScan v color",
+    "file": "logo-52-239.png"
+  },
+  {
+    "id": "52:249",
+    "name": "AppScan · AppScan v white",
+    "file": "logo-52-249.png"
+  },
+  {
+    "id": "52:259",
+    "name": "AppScan · AppScan white",
+    "file": "logo-52-259.png"
+  },
+  {
+    "id": "52:271",
+    "name": "AvatarX · AvatarX color",
+    "file": "logo-52-271.png"
+  },
+  {
+    "id": "52:281",
+    "name": "AvatarX · AvatarX h color",
+    "file": "logo-52-281.png"
+  },
+  {
+    "id": "52:291",
+    "name": "AvatarX · AvatarX h white",
+    "file": "logo-52-291.png"
+  },
+  {
+    "id": "52:301",
+    "name": "AvatarX · AvatarX v color",
+    "file": "logo-52-301.png"
+  },
+  {
+    "id": "52:311",
+    "name": "AvatarX · AvatarX v white",
+    "file": "logo-52-311.png"
+  },
+  {
+    "id": "52:321",
+    "name": "AvatarX · AvatarX white",
+    "file": "logo-52-321.png"
+  },
+  {
+    "id": "52:333",
+    "name": "CloudMessage · CloudMessage color",
+    "file": "logo-52-333.png"
+  },
+  {
+    "id": "52:343",
+    "name": "CloudMessage · CloudMessage h color",
+    "file": "logo-52-343.png"
+  },
+  {
+    "id": "52:353",
+    "name": "CloudMessage · CloudMessage h white",
+    "file": "logo-52-353.png"
+  },
+  {
+    "id": "52:363",
+    "name": "CloudMessage · CloudMessage v color",
+    "file": "logo-52-363.png"
+  },
+  {
+    "id": "52:373",
+    "name": "CloudMessage · CloudMessage v white",
+    "file": "logo-52-373.png"
+  },
+  {
+    "id": "52:383",
+    "name": "CloudMessage · CloudMessage white",
+    "file": "logo-52-383.png"
+  },
+  {
+    "id": "52:395",
+    "name": "EMM · EMM color",
+    "file": "logo-52-395.png"
+  },
+  {
+    "id": "52:405",
+    "name": "EMM · EMM h color",
+    "file": "logo-52-405.png"
+  },
+  {
+    "id": "52:415",
+    "name": "EMM · EMM h white",
+    "file": "logo-52-415.png"
+  },
+  {
+    "id": "52:425",
+    "name": "EMM · EMM v color",
+    "file": "logo-52-425.png"
+  },
+  {
+    "id": "52:435",
+    "name": "EMM · EMM v white",
+    "file": "logo-52-435.png"
+  },
+  {
+    "id": "52:445",
+    "name": "EMM · EMM white",
+    "file": "logo-52-445.png"
+  },
+  {
+    "id": "52:457",
+    "name": "GoInsight · GoInsight color",
+    "file": "logo-52-457.png"
+  },
+  {
+    "id": "52:467",
+    "name": "GoInsight · GoInsight h color",
+    "file": "logo-52-467.png"
+  },
+  {
+    "id": "52:477",
+    "name": "GoInsight · GoInsight h white",
+    "file": "logo-52-477.png"
+  },
+  {
+    "id": "52:487",
+    "name": "GoInsight · GoInsight v color",
+    "file": "logo-52-487.png"
+  },
+  {
+    "id": "52:497",
+    "name": "GoInsight · GoInsight v white",
+    "file": "logo-52-497.png"
+  },
+  {
+    "id": "52:507",
+    "name": "GoInsight · GoInsight white",
+    "file": "logo-52-507.png"
+  },
+  {
+    "id": "52:519",
+    "name": "Stackly · Stackly color",
+    "file": "logo-52-519.png"
+  },
+  {
+    "id": "52:529",
+    "name": "Stackly · Stackly h color",
+    "file": "logo-52-529.png"
+  },
+  {
+    "id": "52:539",
+    "name": "Stackly · Stackly h white",
+    "file": "logo-52-539.png"
+  },
+  {
+    "id": "52:549",
+    "name": "Stackly · Stackly v color",
+    "file": "logo-52-549.png"
+  },
+  {
+    "id": "52:559",
+    "name": "Stackly · Stackly v white",
+    "file": "logo-52-559.png"
+  },
+  {
+    "id": "52:569",
+    "name": "Stackly · Stackly white",
+    "file": "logo-52-569.png"
+  },
+  {
+    "id": "52:581",
+    "name": "MAXSTORE · MAXSTORE color",
+    "file": "logo-52-581.png"
+  },
+  {
+    "id": "52:591",
+    "name": "MAXSTORE · MAXSTORE h color",
+    "file": "logo-52-591.png"
+  },
+  {
+    "id": "52:601",
+    "name": "MAXSTORE · MAXSTORE h white",
+    "file": "logo-52-601.png"
+  },
+  {
+    "id": "52:611",
+    "name": "MAXSTORE · MAXSTORE v color",
+    "file": "logo-52-611.png"
+  },
+  {
+    "id": "52:621",
+    "name": "MAXSTORE · MAXSTORE v color small",
+    "file": "logo-52-621.png"
+  },
+  {
+    "id": "52:631",
+    "name": "MAXSTORE · MAXSTORE v white",
+    "file": "logo-52-631.png"
+  },
+  {
+    "id": "52:641",
+    "name": "MAXSTORE · MAXSTORE white",
+    "file": "logo-52-641.png"
+  },
+  {
+    "id": "205:140",
+    "name": "Ecosystem logo · Merchant Portal",
+    "file": "logo-205-140.png"
+  },
+  {
+    "id": "205:144",
+    "name": "Ecosystem logo · E-invoicing",
+    "file": "logo-205-144.png"
+  },
+  {
+    "id": "205:148",
+    "name": "Ecosystem logo · Customer Support",
+    "file": "logo-205-148.png"
+  },
+  {
+    "id": "205:152",
+    "name": "Ecosystem logo · Advertising Distribution",
+    "file": "logo-205-152.png"
+  },
+  {
+    "id": "205:156",
+    "name": "Ecosystem logo · Device Management",
+    "file": "logo-205-156.png"
+  },
+  {
+    "id": "205:160",
+    "name": "Ecosystem logo · Mobility Management",
+    "file": "logo-205-160.png"
+  },
+  {
+    "id": "205:164",
+    "name": "Ecosystem logo · Remote Assistance",
+    "file": "logo-205-164.png"
+  },
+  {
+    "id": "205:168",
+    "name": "Ecosystem logo · Business Intelligence",
+    "file": "logo-205-168.png"
+  },
+  {
+    "id": "205:172",
+    "name": "Ecosystem logo · Device Customization",
+    "file": "logo-205-172.png"
+  },
+  {
+    "id": "205:176",
+    "name": "Ecosystem logo · eSIM Management",
+    "file": "logo-205-176.png"
+  },
+  {
+    "id": "205:180",
+    "name": "Ecosystem logo · Key Injection",
+    "file": "logo-205-180.png"
+  },
+  {
+    "id": "205:184",
+    "name": "Ecosystem logo · Signing Service",
+    "file": "logo-205-184.png"
+  },
+  {
+    "id": "205:188",
+    "name": "Ecosystem logo · Online Scanning",
+    "file": "logo-205-188.png"
+  },
+  {
+    "id": "205:192",
+    "name": "Ecosystem logo · Payment Gateway",
+    "file": "logo-205-192.png"
+  },
+  {
+    "id": "205:196",
+    "name": "Ecosystem logo · SoftPOS",
+    "file": "logo-205-196.png"
+  },
+  {
+    "id": "205:200",
+    "name": "Ecosystem logo · Payment",
+    "file": "logo-205-200.png"
+  },
+  {
+    "id": "205:204",
+    "name": "Ecosystem logo · EPOS Integration",
+    "file": "logo-205-204.png"
+  },
+  {
+    "id": "205:208",
+    "name": "Ecosystem logo · Multilane Integration",
+    "file": "logo-205-208.png"
+  },
+  {
+    "id": "205:212",
+    "name": "Ecosystem logo · Vending Machine Integration",
+    "file": "logo-205-212.png"
+  },
+  {
+    "id": "205:216",
+    "name": "Ecosystem logo · Automated Testing",
+    "file": "logo-205-216.png"
+  },
+  {
+    "id": "205:220",
+    "name": "Ecosystem logo · P2PE Security",
+    "file": "logo-205-220.png"
+  }
+]

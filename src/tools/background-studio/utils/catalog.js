@@ -5,7 +5,7 @@ import { componentNameOf } from './presets';
 
 export { themeDefaults } from './theme';
 
-export const DEFAULT_BACKGROUND = 'topography';
+export const DEFAULT_BACKGROUND = 'aurora';
 
 const META_BY_PATH = new Map(Object.values(componentMetadata).map(meta => [new URL(meta.docsUrl).pathname, meta]));
 

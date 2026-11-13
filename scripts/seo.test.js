@@ -22,10 +22,11 @@ test('covers every component, category, tool and core docs route without duplica
     '/get-started/changelog',
     '/tools',
     '/tools/background-studio',
-    '/tools/shape-magic',
-    '/tools/texture-lab'
+    '/tools/center-stage',
+    '/tools/sound-lab'
   ])
     assert.ok(paths.has(route), route);
+  for (const id of ['shape-magic', 'texture-lab']) assert.ok(!paths.has('/tools/' + id));
 });
 
 test('aliases and redirects always lead to canonical routes', () => {

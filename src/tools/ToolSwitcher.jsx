@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { Tick02Icon, UnfoldMoreIcon } from '@hugeicons/core-free-icons';
 import { Icon } from './background-studio/components/ui';
-import { TOOLS } from '../constants/Tools';
+import { CREATIVE_TOOLS as TOOLS } from '../constants/Tools';
 import { TOOL_ICONS as ICONS } from './toolIcons';
 
 const GAP = 6;

@@ -26,6 +26,7 @@ import { colors } from '../../constants/colors';
 import PropTable from './Preview/PropTable';
 import CodeExample, { injectPropsIntoCode } from '../code/CodeExample';
 import OpenInStudioButton from './Preview/OpenInStudioButton';
+import { getBackgroundById } from '../../tools/background-studio/backgrounds';
 import { buildStudioUrl } from './Preview/studio-url';
 import CopyForAIMenu, { AIMenuSections, MenuGroup } from './CopyForAIMenu';
 import FluidMenuContent from './FluidMenuContent';
@@ -214,9 +215,10 @@ const TabsLayout = ({ children, className }) => {
   // Extract codeObject/componentName from CodeExample child and propData from PropTable child
   const codeExampleProps = contentMap.CodeTab ? findChildProps(contentMap.CodeTab.props.children, CodeExample) : null;
   const propTableProps = contentMap.PreviewTab ? findChildProps(contentMap.PreviewTab.props.children, PropTable) : null;
-  const studioButtonProps = contentMap.PreviewTab
+  const requestedStudioProps = contentMap.PreviewTab
     ? findChildProps(contentMap.PreviewTab.props.children, OpenInStudioButton)
     : null;
+  const studioButtonProps = getBackgroundById(requestedStudioProps?.backgroundId) ? requestedStudioProps : null;
 
   const navigate = useNavigate();
   const handleOpenStudio = useCallback(() => {

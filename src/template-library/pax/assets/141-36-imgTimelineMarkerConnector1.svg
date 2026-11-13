@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="360" height="56" viewBox="0 0 360 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Timeline marker + Connector">
+<rect id="Connector" x="20" y="27" width="340" height="2" fill="#2A7DE1"/>
+<circle id="Ellipse" cx="20" cy="28" r="19" fill="url(#paint0_radial_0_70)" stroke-width="2" stroke="white"/>
+</g>
+<defs>
+<radialGradient id="paint0_radial_0_70" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(20 28) scale(20)">
+<stop stop-color="#72D6F1"/>
+<stop offset="1" stop-color="white"/>
+</radialGradient>
+</defs>
+</svg>

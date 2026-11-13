@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ToolCaseIcon } from '@hugeicons/core-free-icons';
 import { LuArrowUpRight } from 'react-icons/lu';
-import ProCard from '../components/common/ProCard';
-import SponsorsCard from '../components/common/SponsorsCard';
 import ReactBitsLogo from '../assets/logos/react-bits-logo.svg';
-import { TOOLS } from '../constants/Tools';
+import { CREATIVE_TOOLS as TOOLS } from '../constants/Tools';
 import ToolBackdrop from './ToolBackdrop';
 import { TOOL_ICONS } from './toolIcons';
 import '../css/tools-index.css';
@@ -14,11 +12,6 @@ import '../css/tools-index.css';
 const BLURBS = {
   'background-studio':
     'Pick an animated background, start from a preset, tune it live, then export the code, a 4K image or a looping video.',
-  'shape-magic':
-    'Design a logo mark or style your own logo with 3D materials. Export SVG, PNG, favicons, video or React.',
-  'texture-lab':
-    'Stack animated effects on a photo, video or your camera, then export an image, a video, a GIF or a shareable style.',
-  'center-stage': 'Turn screenshots and recordings into polished product shots. Perfect for launch videos or demos.',
   'sound-lab':
     'Interface and video sounds, tune them live, then install one with a single command or download WAV, MP3 or OGG.'
 };
@@ -109,33 +102,33 @@ function ToolCard({ tool, index }) {
     <Link
       ref={cardRef}
       to={tool.path}
-      className={`pg-tile tl-card tl-card--${tool.id}`}
-      style={{ '--tl-order': index }}
+      className={`pg-tile ct-card ct-card--${tool.id}`}
+      style={{ '--ct-order': index }}
     >
-      <div ref={wellRef} className="pg-well tl-well">
-        <div className="tl-art" aria-hidden="true">
+      <div ref={wellRef} className="pg-well ct-well">
+        <div className="ct-art" aria-hidden="true">
           <ToolBackdrop id={tool.id} />
           <ToolBackdrop id={tool.id} lit />
         </div>
-        <div className="tl-lockup" aria-hidden="true">
-          <img className="tl-logo" src={ReactBitsLogo} alt="" width="115" height="23" />
-          <span className="tl-pill">
-            <span className="tl-pill-icon">
+        <div className="ct-lockup" aria-hidden="true">
+          <img className="ct-logo" src={ReactBitsLogo} alt="" width="115" height="23" />
+          <span className="ct-pill">
+            <span className="ct-pill-icon">
               <HugeiconsIcon icon={TOOL_ICONS[tool.id]} size={17} strokeWidth={1.6} />
             </span>
-            <span className="tl-pill-label">{tool.label}</span>
+            <span className="ct-pill-label">{tool.label}</span>
           </span>
         </div>
       </div>
-      <div className="tl-caption">
-        <div className="tl-caption-row">
-          <h2 className="tl-name">{tool.label}</h2>
-          <span className="tl-open">
+      <div className="ct-caption">
+        <div className="ct-caption-row">
+          <h2 className="ct-name">{tool.label}</h2>
+          <span className="ct-open">
             Open
             <LuArrowUpRight size={14} aria-hidden="true" />
           </span>
         </div>
-        <p className="tl-desc">{BLURBS[tool.id] || tool.description}</p>
+        <p className="ct-desc">{BLURBS[tool.id] || tool.description}</p>
       </div>
     </Link>
   );
@@ -143,28 +136,17 @@ function ToolCard({ tool, index }) {
 
 export default function ToolsIndex() {
   return (
-    <main className="pg tl">
-      <div className="tl-layout">
-        <div className="tl-main">
-          <header className="tl-head">
-            <p className="tl-eyebrow">
-              <HugeiconsIcon icon={ToolCaseIcon} size={16} strokeWidth={1.8} />
-              Creative Tools
-            </p>
-            <h1 className="pg-title tl-title">Make your product look and sound its best</h1>
-          </header>
-
-          <div className="tl-grid">
-            {TOOLS.map((tool, index) => (
-              <ToolCard key={tool.id} tool={tool} index={index} />
-            ))}
-          </div>
-        </div>
-
-        <aside className="tl-rail">
-          <ProCard />
-          <SponsorsCard />
-        </aside>
+    <main className="ct-main">
+      <header className="ct-head">
+        <p className="ct-eyebrow">
+          <HugeiconsIcon icon={ToolCaseIcon} size={16} strokeWidth={1.8} /> Creative Tools
+        </p>
+        <h1 className="ct-title">Make your product look and sound its best</h1>
+      </header>
+      <div className="ct-grid">
+        {TOOLS.map((tool, index) => (
+          <ToolCard key={tool.id} tool={tool} index={index} />
+        ))}
       </div>
     </main>
   );

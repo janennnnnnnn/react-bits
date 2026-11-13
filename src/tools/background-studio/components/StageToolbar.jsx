@@ -36,6 +36,8 @@ function StageToolbar({
   onSnapshot,
   onFullscreen,
   onCopyLink,
+  onSaveEffect,
+  savingEffect,
   onExport
 }) {
   return (
@@ -76,6 +78,15 @@ function StageToolbar({
             <Icon icon={Link04Icon} />
           </button>
         </Tip>
+
+        <button
+          type="button"
+          className="docs-tool bs-save-effect"
+          onClick={onSaveEffect}
+          disabled={disabled || savingEffect}
+        >
+          {savingEffect ? 'Saving…' : 'Save to My Effects'}
+        </button>
 
         <Tip label="Code, image or video" hint="E" placement="bottom">
           <button type="button" className="bs-export" onClick={onExport}>

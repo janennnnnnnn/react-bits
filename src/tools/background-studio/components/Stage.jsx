@@ -40,9 +40,14 @@ const Stage = forwardRef(function Stage({ frame, mode, onModeChange, onNarrowCha
   );
 
   return (
-    <div className="demo-container bs-stage" ref={ref} data-status={status}>
+    <div
+      className="demo-container bs-stage"
+      ref={ref}
+      data-status={status}
+      data-poster={mode === 'card' ? '' : undefined}
+    >
       <iframe ref={iframeRef} src={src} className="bs-frame" title="Background preview" allow="fullscreen" />
-      {content}
+      {mode !== 'card' && content}
       <div className="bs-overlay bs-loading" aria-hidden={status !== 'loading'}>
         <span className="bs-spinner" ref={spinnerRef} />
       </div>

@@ -106,3 +106,13 @@ window.__rbStudio = {
 createRoot(document.getElementById('root')).render(<Frame />);
 
 window.parent?.postMessage({ type: 'rb-studio-frame' }, window.location.origin);
+
+if (query.has('effect') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  import('../utils/effectImage')
+    .then(async ({ resolveEffect }) => {
+      const { entry, props } = await resolveEffect(query.get('effect'), query.get('theme'));
+      await load(entry.id, props);
+      window.parent.postMessage({ type: 'template-effect-ready' }, '*');
+    })
+    .catch(() => {});
+}

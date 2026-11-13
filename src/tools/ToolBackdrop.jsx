@@ -87,21 +87,21 @@ function Halftone() {
 
 function Stage() {
   return (
-    <svg className="tl-stage" viewBox="-270 -160 540 320" fill="none" stroke="currentColor" strokeWidth="1">
+    <svg className="ct-stage" viewBox="-270 -160 540 320" fill="none" stroke="currentColor" strokeWidth="1">
       <ellipse cx="0" cy="122" rx="262" ry="22" vectorEffect="non-scaling-stroke" />
       <path d="M-262 122V132A262 22 0 0 0 262 132V122" vectorEffect="non-scaling-stroke" />
-      <rect className="tl-solid" x="-246" y="-60" width="138" height="158" rx="13" vectorEffect="non-scaling-stroke" />
+      <rect className="ct-solid" x="-246" y="-60" width="138" height="158" rx="13" vectorEffect="non-scaling-stroke" />
       <rect x="-239" y="-53" width="124" height="144" rx="7" vectorEffect="non-scaling-stroke" />
-      <rect className="tl-solid" x="-160" y="-106" width="320" height="208" rx="12" vectorEffect="non-scaling-stroke" />
+      <rect className="ct-solid" x="-160" y="-106" width="320" height="208" rx="12" vectorEffect="non-scaling-stroke" />
       <rect x="-152" y="-98" width="304" height="192" rx="5" vectorEffect="non-scaling-stroke" />
       <circle cx="0" cy="-102" r="1.4" vectorEffect="non-scaling-stroke" />
       <path
-        className="tl-solid"
+        className="ct-solid"
         d="M-178 102H178L194 110Q197 114 192 114H-192Q-197 114 -194 110Z"
         vectorEffect="non-scaling-stroke"
       />
       <path d="M-24 114Q-22 110.5 -17 110.5H17Q22 110.5 24 114" vectorEffect="non-scaling-stroke" />
-      <rect className="tl-solid" x="132" y="-24" width="76" height="156" rx="16" vectorEffect="non-scaling-stroke" />
+      <rect className="ct-solid" x="132" y="-24" width="76" height="156" rx="16" vectorEffect="non-scaling-stroke" />
       <rect x="137" y="-19" width="66" height="146" rx="12" vectorEffect="non-scaling-stroke" />
       <rect x="158" y="-13" width="24" height="6" rx="3" vectorEffect="non-scaling-stroke" />
     </svg>
@@ -128,6 +128,7 @@ function Waveform() {
 }
 
 const ART = {
+  'react-bits': Halftone,
   'background-studio': Waves,
   'shape-magic': Contours,
   'texture-lab': Halftone,
@@ -142,7 +143,7 @@ export default function ToolBackdrop({ id, lit = false }) {
   const Scene = SCENES[id];
   if (Scene) {
     return (
-      <div className={`tl-backdrop tl-backdrop--scene${lit ? ' tl-backdrop--lit' : ''}`} aria-hidden="true">
+      <div className={`ct-backdrop ct-backdrop--scene${lit ? ' ct-backdrop--lit' : ''}`} aria-hidden="true">
         <Scene />
       </div>
     );
@@ -151,7 +152,7 @@ export default function ToolBackdrop({ id, lit = false }) {
   if (!Art) return null;
   return (
     <svg
-      className={`tl-backdrop${lit ? ' tl-backdrop--lit' : ''}`}
+      className={`ct-backdrop${lit ? ' ct-backdrop--lit' : ''}`}
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"

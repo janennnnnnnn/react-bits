@@ -75,11 +75,19 @@ export default function CodeExport({ state }) {
   const ai = useMemo(() => {
     if (!codeObject) return {};
     const { source, css } = getActiveCode(codeObject, languagePreset, stylePreset);
+    const request = [
+      'Replace the existing background in the specified page, slide or poster with this configured effect.',
+      'Preserve foreground content, layout, and legibility. Keep the supplied colors and motion settings.',
+      'Use the component directly in React. For plain HTML, adapt the effect to the existing runtime. For a static slide or poster, use a rendered still of the configured effect.'
+    ].join(' ');
     return {
       componentName: entry.name,
       category: entry.category,
       subcategory: entry.id,
-      fullPrompt: buildPrompt(entry.name, { ...codeObject, usage: configuredUsage }, [], languagePreset, stylePreset),
+      fullPrompt:
+        request +
+        '\n\n' +
+        buildPrompt(entry.name, { ...codeObject, usage: configuredUsage }, [], languagePreset, stylePreset),
       configuredUsage,
       componentSource: source,
       componentCss: css,
