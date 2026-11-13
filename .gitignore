@@ -37,3 +37,4 @@ AGENTS.md
 *.njsproj
 *.sln
 *.sw?
+/public/local-fonts/

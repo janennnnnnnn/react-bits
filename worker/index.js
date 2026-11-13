@@ -1,11 +1,15 @@
+import { mcpResponse } from '../server/mcp.mjs';
+import { likesResponse } from '../server/likes.mjs';
 import { findComponentBySlug } from '../src/utils/routeMatch.js';
 
 const RESERVED_PREFIXES = new Set(['tools', 'guides', 'c', 'r', 'assets', 'og']);
 
 export default {
   async fetch(request, env) {
+    if (new URL(request.url).pathname === '/mcp') return mcpResponse(request);
     if (request.method === 'GET' || request.method === 'HEAD') {
       const url = new URL(request.url);
+      if (['/api/likes', '/api/likes/image'].includes(url.pathname)) return likesResponse(url);
       const segments = url.pathname.split('/').filter(Boolean);
       const isAlias =
         segments.length === 1 ||

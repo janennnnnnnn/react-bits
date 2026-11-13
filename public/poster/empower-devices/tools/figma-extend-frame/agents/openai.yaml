@@ -1,0 +1,4 @@
+interface:
+  display_name: "Figma Extend Frame"
+  short_description: "按 Excel 或指定尺寸延展分层主视觉，保留全幅构图和品牌元素"
+  default_prompt: "使用 $figma-extend-frame，基于现有分层主视觉、可复用组件和 Variables，按 Excel 或本次指定尺寸生成可编辑 Figma 画布；延续全幅背景与品牌元素，局部信息区使用 Auto Layout。"

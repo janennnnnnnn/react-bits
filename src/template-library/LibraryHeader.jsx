@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown, Search } from 'lucide-react';
-import logo from '../assets/logos/react-bits-logo-small.svg';
+import logo from '../assets/logos/code-brush.svg';
 import './library.css';
 
 const menus = [
   ['Library', ['HTML', 'Poster']],
-  ['Resources', ['Asset', 'Skills']]
+  ['Resources', ['Asset', 'Skills', 'Workflow']]
 ];
 export const starterItems = ['Introduction', 'Installation', 'MCP Server', 'Saved'];
 export const libraryView = name => (name === 'HTML' ? '/' : '/?view=' + encodeURIComponent(name));

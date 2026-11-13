@@ -1,0 +1,6 @@
+interface:
+  display_name: "Image to Frame"
+  short_description: "将静态图片重建为品牌一致、元素完整且文字与矢量可编辑的 Figma 画布或分层 PSD"
+  default_prompt: "使用 $image-to-frame 将这张图片还原为我指定的 Figma 或 PSD，补齐遮挡内容，重建原生文字与矢量，并验证分层可编辑性。"
+policy:
+  allow_implicit_invocation: true
